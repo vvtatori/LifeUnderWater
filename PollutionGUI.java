@@ -4,19 +4,28 @@
  */
 package Pollution;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
  *
- * @author User
+ * @author Virginiah
  */
 public class PollutionGUI extends javax.swing.JFrame {
-
+    ArrayList<Pollution> pollutionList;
     /**
      * Creates new form PollutionGUI
      */
     public PollutionGUI() {
         initComponents();
+        pollutionList = new ArrayList<>();
+        loadFile();
     }
 
     /**
@@ -45,6 +54,10 @@ public class PollutionGUI extends javax.swing.JFrame {
         btnCleanUp = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
+        btnDisplay = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        displayTA = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -121,6 +134,26 @@ public class PollutionGUI extends javax.swing.JFrame {
             }
         });
 
+        btnSave.setText("SAVE REPORT");
+        btnSave.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+
+        btnDisplay.setText("DISPLAY REPORTS");
+        btnDisplay.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnDisplay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDisplayActionPerformed(evt);
+            }
+        });
+
+        displayTA.setColumns(20);
+        displayTA.setRows(5);
+        jScrollPane1.setViewportView(displayTA);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -136,14 +169,6 @@ public class PollutionGUI extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(288, 288, 288)
-                                .addComponent(btnReport, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(98, 98, 98)
-                                .addComponent(lblCleanUp, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(33, 33, 33)
-                                .addComponent(btnCleanUp, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(156, 156, 156)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblRating, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -156,14 +181,32 @@ public class PollutionGUI extends javax.swing.JFrame {
                                     .addComponent(txtUserId, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtLocation, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtRating, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cmbPollutionType, javax.swing.GroupLayout.Alignment.LEADING, 0, 171, Short.MAX_VALUE))))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(cmbPollutionType, javax.swing.GroupLayout.Alignment.LEADING, 0, 171, Short.MAX_VALUE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(98, 98, 98)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(lblCleanUp, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(33, 33, 33)
+                                        .addComponent(btnCleanUp, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(0, 4, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addComponent(btnBack)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnExit)))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(61, 61, 61)
+                .addComponent(btnSave)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnDisplay)
+                .addGap(70, 70, 70))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnReport, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(264, 264, 264))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,9 +236,15 @@ public class PollutionGUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblRating)
                     .addComponent(txtRating, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGap(27, 27, 27)
                 .addComponent(btnReport, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
+                .addGap(33, 33, 33)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCleanUp, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCleanUp, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -225,14 +274,28 @@ public class PollutionGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbPollutionTypeActionPerformed
 
     private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
-        //This button records the pollution report input by the user
+        //This button collects the records the pollution report input by the user
         String userId = txtUserId.getText();
         String location = txtLocation.getText();
-        int rating = Integer.parseInt(txtRating.getText());
+        int rating;
         String type = cmbPollutionType.getSelectedItem().toString();
         
+        //declaring an instance of pollution which would then be either of the 3 types
         Pollution pollution;
         
+        //checking if the rating entered is an integer
+        try{
+            rating = Integer.parseInt(txtRating.getText());
+            if(rating < 1 || rating > 10) {
+                JOptionPane.showMessageDialog(this, "Rating must be between 1 and 10.");
+                return;
+            }  
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Invalid Input" + "Rating must be a valid integer.");
+            return;
+        }
+        
+        //Creating an instance of the pollution subclasses based on the input on the combo box
         switch (type) {
         case "Oil Spillage":
             pollution = new OilSpillage(location, userId, rating);
@@ -248,9 +311,33 @@ public class PollutionGUI extends javax.swing.JFrame {
             return;
         }
         
+        //adding the object to the arrayList
+        pollutionList.add(pollution);
         JOptionPane.showMessageDialog(this, pollution.details());
     }//GEN-LAST:event_btnReportActionPerformed
 
+    //This load file method creates the file for the reports to be read into and allows the user reports to be saved into the file
+    private void loadFile() {
+        File f;
+        FileInputStream fStream;
+        ObjectInputStream oStream;
+        f = new File("pollution.dat");
+        //Checking if the file exists before trying to load the file
+        if (!f.exists()) {
+            System.out.println("File does not exist. It will be created when data is saved.");
+            //return;
+        }
+        try {
+            fStream = new FileInputStream(f);
+            oStream = new ObjectInputStream(fStream);
+            // Read the pollution object from the file
+            pollutionList = (ArrayList<Pollution>)oStream.readObject();
+            System.out.println("Pollution deatails loaded: ");
+            oStream.close();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("File input error on loading file: " + e);
+        }
+    }
     private void btnCleanUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCleanUpActionPerformed
         //When clicked the pollution GUI is hidden and the cleanUpRegistration displayed
         CleanUpGUI cleanUpFrame= new CleanUpGUI();
@@ -269,6 +356,71 @@ public class PollutionGUI extends javax.swing.JFrame {
         //Exits program when button is clocked
         System.exit(0);
     }//GEN-LAST:event_btnExitActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        // TODO add your handling code here:
+        File f;
+        FileOutputStream fStream;
+        ObjectOutputStream oStream;
+        try {
+            f = new File("pollution.dat");
+            // Append to the file if it exists, otherwise create a new one
+            fStream = new FileOutputStream(f, true);
+            oStream = new ObjectOutputStream(fStream);
+            // Write the pollution object to the file
+            oStream.writeObject(pollutionList);
+            oStream.close();
+            System.out.println("Pollution object saved successfully.");
+            JOptionPane.showMessageDialog(this, "Saved!");
+            
+            //Clearing text fields for the next items
+            txtUserId.setText("");
+            txtLocation.setText("");
+            txtRating.setText("");
+            cmbPollutionType.setSelectedIndex(0);
+        } catch (IOException e) {
+            System.out.println("Error saving pollution object: " + e);
+        }
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnDisplayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayActionPerformed
+        // TODO add your handling code here:
+        //looping through the arraylist to display pollution Object
+        for (Pollution p : pollutionList){
+            displayTA.setText(p.details() + "\n");
+        }
+        
+        //Displaying objects without using array of objects
+//        File f;
+//        FileInputStream fStream;
+//        ObjectInputStream oStream;
+//
+//        try {
+//            f = new File("pollution.dat");
+//            fStream = new FileInputStream(f);
+//            oStream = new ObjectInputStream(fStream);
+//
+//            // Read the objects from the file and display them
+//           // Pollution pollution;
+//            while (true) {
+//                try {
+//                    // Read the Pollution object from the file
+//                    Pollution pollution = (Pollution) oStream.readObject();
+//                    // Append the Pollution object data to the JTextArea
+//                    displayTA.append("\n" + pollution.details());
+//                } catch (EOFException e) {
+//                    // End of file reached, exit the loop
+//                    break;
+//                }
+//            }
+//
+//            // Close the input stream
+//            oStream.close();
+//        } catch (IOException | ClassNotFoundException e) {
+//            System.out.println("Error reading from file: " + e.getMessage());
+//        }
+          
+    }//GEN-LAST:event_btnDisplayActionPerformed
 
     /**
      * @param args the command line arguments
@@ -308,10 +460,14 @@ public class PollutionGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnCleanUp;
+    private javax.swing.JButton btnDisplay;
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnReport;
+    private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<String> cmbPollutionType;
+    private javax.swing.JTextArea displayTA;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCleanUp;
     private javax.swing.JLabel lblLocation;
     private javax.swing.JLabel lblPollution;
