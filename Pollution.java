@@ -4,11 +4,13 @@
  */
 package Pollution;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Virginiah
  */
-public abstract class Pollution {
+public abstract class Pollution implements Serializable{
     protected String pollutionType;
     protected String location;
     protected String userId;

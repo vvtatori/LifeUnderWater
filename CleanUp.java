@@ -9,9 +9,10 @@ package Pollution;
  * @author Virginiah
  */
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CleanUp {
+public class CleanUp implements Serializable{
     //Data members
     private String name;
     private String contactInfo;
