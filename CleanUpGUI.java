@@ -4,19 +4,28 @@
  */
 package Pollution;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
  *
- * @author User
+ * @author Virginiah
  */
 public class CleanUpGUI extends javax.swing.JFrame {
-
+    ArrayList<CleanUp> registrations; 
     /**
      * Creates new form CleanUpGUI
      */
     public CleanUpGUI() {
         initComponents();
+        registrations = new ArrayList<>();
+        loadFile();
     }
 
     /**
@@ -44,6 +53,10 @@ public class CleanUpGUI extends javax.swing.JFrame {
         txtLocation = new javax.swing.JTextField();
         btnRegister = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        btnSearch = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        displayTA = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,6 +68,7 @@ public class CleanUpGUI extends javax.swing.JFrame {
 
         lblTitle.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
         lblTitle.setText("SignUp for CleanUp Activities");
+        lblTitle.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         lblName.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblName.setText("Name");
@@ -91,15 +105,45 @@ public class CleanUpGUI extends javax.swing.JFrame {
             }
         });
 
+        btnDelete.setBackground(new java.awt.Color(204, 204, 255));
+        btnDelete.setFont(new java.awt.Font("MS PGothic", 1, 12)); // NOI18N
+        btnDelete.setText("DELETE REGISTRATION");
+        btnDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
+        btnSearch.setBackground(new java.awt.Color(204, 204, 255));
+        btnSearch.setFont(new java.awt.Font("MS PGothic", 1, 12)); // NOI18N
+        btnSearch.setText("VIEW TEAMS");
+        btnSearch.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+
+        displayTA.setColumns(20);
+        displayTA.setRows(5);
+        jScrollPane1.setViewportView(displayTA);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblCleanUp)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(btnBack)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblCleanUp)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                        .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(59, 59, 59)
                 .addComponent(lblCleanUp2)
                 .addGap(15, 15, 15))
@@ -108,9 +152,6 @@ public class CleanUpGUI extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(264, 264, 264)
                         .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(btnBack))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(126, 126, 126)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -128,7 +169,18 @@ public class CleanUpGUI extends javax.swing.JFrame {
                                     .addComponent(txtContact)
                                     .addComponent(txtLocation)
                                     .addComponent(txtTime, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(189, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(76, 76, 76)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnDelete)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSearch)
+                        .addGap(51, 51, 51))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,7 +216,13 @@ public class CleanUpGUI extends javax.swing.JFrame {
                     .addComponent(txtLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34)
                 .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
                 .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
         );
@@ -194,10 +252,13 @@ public class CleanUpGUI extends javax.swing.JFrame {
         String time = txtTime.getText();
         String location = txtLocation.getText();
         
-        CleanUp registration;
-        registration = new CleanUp(name,contact, location,date, time);
+        CleanUp myReg;
+        myReg = new CleanUp(name,contact, location,date, time);
         
-        JOptionPane.showMessageDialog(this, registration.returnDetails());
+        //Adding the object to the arraylist
+        registrations.add(myReg);
+        JOptionPane.showMessageDialog(this, myReg.returnDetails());
+        saveToFile();
     }//GEN-LAST:event_btnRegisterActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -208,6 +269,107 @@ public class CleanUpGUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnBackActionPerformed
 
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        //Prompting the user for name and contact
+        String name = JOptionPane.showInputDialog(this, "Enter the Name:");
+        String contact = JOptionPane.showInputDialog(this, "Enter the Contact:");
+        
+        //check both values are not null
+        if (name == null || contact == null || name.isEmpty() || contact.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Both values are required!.");
+            return;
+        }
+        //load the current data from the file 
+       // loadFile();
+        
+        // List to collect matching records for deletion
+        ArrayList<CleanUp> recordsToRemove = new ArrayList<>();
+        
+        //Search for the matching values
+        for (CleanUp record : registrations) {
+            if (record.getName().equalsIgnoreCase(name) && record.getContactInfo().equalsIgnoreCase(contact)) {
+                //remove record if found
+                recordsToRemove.add(record);
+                
+                //registrations.removeAll(recordsToRemove);
+                //JOptionPane.showMessageDialog(this, "Deleted Successfully!");
+            }  
+            
+        }
+        //Updating the file if there was any matching data in the record added to the removelist and removing the values in it
+        if (!recordsToRemove.isEmpty()) {
+            // Save the changes back to the file
+            saveToFile(); 
+            registrations.removeAll(recordsToRemove);
+            JOptionPane.showMessageDialog(this, "Deleted Successfully!");
+        } else {
+            JOptionPane.showMessageDialog(this, "No matching record found.");
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        // TODO add your handling code here:
+        //promptin user to enter the group
+        String groupSelected = JOptionPane.showInputDialog(this, "Enter the group to view");
+        
+        //String to add macthing values from the data file
+        String results = "";
+        
+        //Searching for matching names and contact information for the set group
+        for (CleanUp record : registrations) {
+            char groupAssigned = record.getGroupAssigned();
+            String myGroup = Character.toString(groupAssigned); //Converting the charcter value to string from the getGroupAssigned method
+            if (myGroup.equalsIgnoreCase(groupSelected)) {
+                // Add the matching record details to the results string
+                results += "Name: " + record.getName() + ", Contact: " + record.getContactInfo() + "\n";
+                
+            }
+        }
+        if(!results.isEmpty()) {
+            displayTA.append("Group " + groupSelected + " members: " + "\n");
+            displayTA.append(results);
+        } else{
+            JOptionPane.showMessageDialog(this, "No records found for the group: " + groupSelected);
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
+    
+    private void saveToFile(){
+        try (ObjectOutputStream oStream = new ObjectOutputStream(new FileOutputStream("cleanUP.dat"))) {
+            oStream.writeObject(registrations);
+            System.out.println("Saved!");
+            oStream.close();
+            //Clearing text fields for the next items
+            txtName.setText("");
+            txtLocation.setText("");
+            txtContact.setText("");
+            txtDate.setText("");
+            txtTime.setText("");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error saving to file: " + e);
+        }
+    }
+    
+    private void loadFile() {
+        File f;
+        FileInputStream fStream;
+        ObjectInputStream oStream;
+        f = new File("cleanUp.dat");
+        //Checking if the file exists before trying to load the file
+        if (!f.exists()) {
+            System.out.println("Clean Up File does not exist. It will be created when data is saved.");
+        }
+        try {
+            fStream = new FileInputStream(f);
+            oStream = new ObjectInputStream(fStream);
+            // Read the pollution object from the file
+            registrations = (ArrayList<CleanUp>)oStream.readObject();
+            System.out.println("Registration details loaded: ");
+            oStream.close();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("File input error on loading file: " + e);
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -245,8 +407,12 @@ public class CleanUpGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnRegister;
+    private javax.swing.JButton btnSearch;
+    private javax.swing.JTextArea displayTA;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCleanUp;
     private javax.swing.JLabel lblCleanUp2;
     private javax.swing.JLabel lblContact;
