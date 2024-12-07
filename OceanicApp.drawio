@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="25.0.3">
   <diagram name="Page-1" id="sLTBp8T7eo7Af8lqR4KY">
-    <mxGraphModel dx="3447" dy="1313" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="2339" math="0" shadow="0">
+    <mxGraphModel dx="766" dy="292" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="2339" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -240,13 +240,13 @@
         <mxCell id="7tFDngFwo49EUbjZa_WI-17" value="MainGUI_Class" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="1640" y="140" width="330" height="290" as="geometry" />
         </mxCell>
-        <mxCell id="7tFDngFwo49EUbjZa_WI-18" value="&lt;div&gt;&lt;div&gt;- frame : JFrame&lt;/div&gt;&lt;div&gt;- panel : JPanel&lt;/div&gt;&lt;/div&gt;- btnFishing : JButton&lt;div&gt;- btnPollution : JButton&lt;/div&gt;&lt;div&gt;- btnMicroPlastics : JButton&lt;/div&gt;&lt;div&gt;- btnExit : JButton&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;- labelBackground : JLabel&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="7tFDngFwo49EUbjZa_WI-17" vertex="1">
+        <mxCell id="7tFDngFwo49EUbjZa_WI-18" value="&lt;div&gt;&lt;div&gt;- frame : JFrame&lt;/div&gt;&lt;div&gt;- panel : JPanel&lt;/div&gt;&lt;/div&gt;- btnFishing : JButton&lt;div&gt;- btnPollution : JButton&lt;/div&gt;&lt;div&gt;- btnMicroPlastics : JButton&lt;/div&gt;&lt;div&gt;- btnExit : JButton&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;- lblBackground : JLabel&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="7tFDngFwo49EUbjZa_WI-17" vertex="1">
           <mxGeometry y="26" width="330" height="154" as="geometry" />
         </mxCell>
         <mxCell id="7tFDngFwo49EUbjZa_WI-19" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="7tFDngFwo49EUbjZa_WI-17" vertex="1">
           <mxGeometry y="180" width="330" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="7tFDngFwo49EUbjZa_WI-20" value="+ GUI ( ) : void&lt;div&gt;+ actionListener (event : e) : void&lt;/div&gt;&lt;div&gt;+ menu (userChoice : String) : void&lt;/div&gt;&lt;div&gt;+ setProp (frame : JFrame ) : void&lt;/div&gt;&lt;div&gt;+ exitApp( ) : void&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="7tFDngFwo49EUbjZa_WI-17" vertex="1">
+        <mxCell id="7tFDngFwo49EUbjZa_WI-20" value="+ GUI ( ) : void&lt;div&gt;+ pollution (event : e) : void&lt;/div&gt;&lt;div&gt;+ fishing (event : e) : void&lt;/div&gt;&lt;div&gt;+ microplastics (event : e ) : void&lt;/div&gt;&lt;div&gt;+ exitApp( ) : void&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="7tFDngFwo49EUbjZa_WI-17" vertex="1">
           <mxGeometry y="188" width="330" height="102" as="geometry" />
         </mxCell>
         <mxCell id="7tFDngFwo49EUbjZa_WI-21" value="Herring" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
